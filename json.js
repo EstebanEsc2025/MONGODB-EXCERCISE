@@ -1,4 +1,4 @@
-[
+module.exports = [
   {
     "_id": 1,
     "nombre": "Ana",
@@ -79,4 +79,4 @@
       }
     ]
   }
-]
+];
