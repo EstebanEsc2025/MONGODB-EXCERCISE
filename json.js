@@ -6,6 +6,7 @@ module.exports = [
     "edad": 8,
     "email": "ana@gmail.com",
     "password": "123456",
+    "estado": "pendiente",
     "perfil": {
       "telefono": "3001111111",
       "ciudad": "Bogotá"
@@ -24,6 +25,7 @@ module.exports = [
     "edad": 15,
     "email": "carlos@gmail.com",
     "password": "123456",
+    "estado": "procesado",
     "perfil": {
       "telefono": "3002222222",
       "ciudad": "Medellín"
@@ -42,6 +44,7 @@ module.exports = [
     "edad": 22,
     "email": "laura@gmail.com",
     "password": "123456",
+    "estado": "pendiente",
     "perfil": {
       "telefono": "3003333333",
       "ciudad": "Cali"
@@ -55,6 +58,7 @@ module.exports = [
     "edad": 9,
     "email": "pedro@gmail.com",
     "password": "123456",
+    "estado": "finalizado",
     "perfil": {
       "telefono": "3004444444",
       "ciudad": "Barranquilla"
@@ -68,6 +72,7 @@ module.exports = [
     "edad": 30,
     "email": "sofia@gmail.com",
     "password": "123456",
+    "estado": "pendiente",
     "perfil": {
       "telefono": "3005555555",
       "ciudad": "Cartagena"

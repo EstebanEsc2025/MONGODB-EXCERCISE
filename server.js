@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema({
   edad: { type: Number, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  estado: { type: String, default: 'pendiente' },
   perfil: { type: Object, default: {} },
   hobbies: { type: Array, default: [] }
 }, {
@@ -98,14 +99,57 @@ app.get('/usuarios', async (req, res) => {
 
 app.post('/usuarios', async (req, res) => {
   try {
-    const { nombre, apellido, edad, email, password, perfil, hobbies } = req.body;
+    const { nombre, apellido, edad, email, password, perfil, hobbies, estado } = req.body;
 
     if (!nombre || !apellido || !edad || !email || !password) {
       return res.status(400).json({ error: 'Faltan datos obligatorios' });
     }
 
-    const createdUser = await createUser({ nombre, apellido, edad, email, password, perfil, hobbies });
+    const createdUser = await createUser({ nombre, apellido, edad, email, password, perfil, hobbies, estado });
     res.status(201).json(createdUser);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.patch('/api/v1/actualizar-estado/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { estado } = req.body;
+
+    if (!estado) {
+      return res.status(400).json({ error: 'Debe enviar un estado para actualizar' });
+    }
+
+    const validStates = ['pendiente', 'procesado', 'finalizado'];
+    if (!validStates.includes(estado)) {
+      return res.status(400).json({ error: 'Estado no válido. Use pendiente, procesado o finalizado' });
+    }
+
+    let user;
+    if (dbAvailable) {
+      user = await User.findById(id);
+    } else {
+      user = memoryUsers.find((item) => String(item._id) === String(id));
+    }
+
+    if (!user) {
+      return res.status(404).json({ error: 'Recurso no encontrado' });
+    }
+
+    if (user.estado === 'finalizado') {
+      return res.status(403).json({
+        error: 'No se puede modificar un recurso ya finalizado'
+      });
+    }
+
+    if (dbAvailable) {
+      const updatedUser = await User.findByIdAndUpdate(id, { estado }, { new: true });
+      return res.json(updatedUser);
+    }
+
+    user.estado = estado;
+    return res.json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

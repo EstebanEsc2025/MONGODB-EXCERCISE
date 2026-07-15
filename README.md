@@ -12,6 +12,7 @@ npm start
 
 - GET /usuarios: lista todos los usuarios.
 - POST /usuarios: crea un nuevo usuario.
+- PATCH /api/v1/actualizar-estado/:id: actualiza el campo estado de un usuario.
 
 Ejemplo de cuerpo para POST:
 
